@@ -3,7 +3,7 @@ import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { ConfigService } from '@nestjs/config';
 import { passportJwtSecret } from 'jwks-rsa';
-import { Auth0JwtPayload, AuthUser } from '../types/auth0-jwt.types';
+import { Auth0User } from '../types/auth0-user.type';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
@@ -23,11 +23,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   }
 
   // Shape the "User" we return across the app
-  validate(payload: Auth0JwtPayload): AuthUser {
-    return {
-      id: payload.sub,
-      email: payload.email,
-      name: payload.name,
-    };
+  validate(payload: Auth0User): Auth0User {
+    return payload;
   }
 }
